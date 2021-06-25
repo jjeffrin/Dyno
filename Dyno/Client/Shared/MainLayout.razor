@@ -1,0 +1,54 @@
+﻿@inherits LayoutComponentBase
+@inject IClientState ClientState
+
+<MudLayout>
+    <MudProgressLinear Color="Color.Secondary" Indeterminate=ClientState.Loading />
+    <MudAppBar Class="mt-1" Elevation="1">
+        <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.False" OnClick="@ToggleDrawer" />
+        <MudText Typo="Typo.h5">Dyno</MudText>
+        <MudAppBarSpacer />
+        <MudIconButton Icon="@Icons.Custom.Brands.GitHub" Color="Color.Inherit" Link="https://github.com/Garderoben/MudBlazor" Target="_blank" />
+    </MudAppBar>
+    <MudDrawer @bind-Open="@open" Elevation="1">
+        <MudDrawerHeader>
+            <MudText Typo="Typo.h6">My App</MudText>
+        </MudDrawerHeader>
+        <MudNavMenu>
+            <MudNavLink OnClick="ToggleDrawer" Href="/" Match="NavLinkMatch.All">Index</MudNavLink>
+            <MudNavLink Href="/counter" Match="NavLinkMatch.All">Counter</MudNavLink>
+            <MudNavLink Href="/fetchdata" Match="NavLinkMatch.All">Fetch Data</MudNavLink>
+            <MudNavLink Href="/sites" Match="NavLinkMatch.All">Sites</MudNavLink>
+            <MudNavLink Href="/navitems" Match="NavLinkMatch.All">Nav Items</MudNavLink>
+            <MudNavLink Href="/toggle" Match="NavLinkMatch.All">Toggle</MudNavLink>
+        </MudNavMenu>
+    </MudDrawer>
+    <MudMainContent Class="pt-16 px-16">
+        <MudContainer Class="mt-2">
+            @Body
+        </MudContainer>
+    </MudMainContent>
+</MudLayout>
+
+<MudThemeProvider />
+<MudDialogProvider />
+<MudSnackbarProvider />
+
+@code{
+    bool open = false;
+
+    void ToggleDrawer()
+    {
+        open = !open;
+    }
+
+    protected override void OnInitialized()
+    {
+        ClientState.OnChange += StateHasChanged;
+    }
+
+    public void Dispose()
+    {
+        ClientState.OnChange -= StateHasChanged;
+    }
+}
+

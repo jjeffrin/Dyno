@@ -1,0 +1,14 @@
+﻿@page "/toggle"
+@inject IClientState ClientState
+
+<h3>Toggle</h3>
+<input type="checkbox" name="toggle" @bind="State" @onclick="ToggleLoad" @bind:event="oninput" />
+
+@code {
+    public bool State { get; set; }
+    
+    private void ToggleLoad()
+    {
+        ClientState.ToggleLoading(!State);
+    }
+}
